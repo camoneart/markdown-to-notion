@@ -1,11 +1,15 @@
 {
-  "name": "md-mcp",
+  "name": "md-to-notion",
   "version": "1.0.0",
   "description": ".mdファイルの内容を、Notionに出力できるMCPサーバー",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "md-mcp": "dist/index.js"
+    "md-to-notion": "dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/camoneart/md-to-notion"
   },
   "scripts": {
     "build": "tsc",
@@ -22,7 +26,11 @@
     "notion",
     "server"
   ],
-  "author": "",
+  "author": "camoneart",
+  "homepage": "https://github.com/camoneart/md-to-notion",
+  "bugs": {
+    "url": "https://github.com/camoneart/md-to-notion/issues"
+  },
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.17.4",
