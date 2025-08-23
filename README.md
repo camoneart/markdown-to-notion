@@ -133,7 +133,6 @@ Notionページにコンテンツを追加するには、作成したインテ�
 3. 「招待」でインテグレーション名を検索
 4. インテグレーションを選択して招待
 
-## ライセンス
+## License
 
-MIT
-
+Licensed under the [MIT License](./LICENSE).
