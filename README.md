@@ -37,6 +37,9 @@ cp .env.example .env
 `.env`ファイルを編集:
 ```env
 NOTION_API_TOKEN=your_notion_api_token_here
+
+# オプション: デフォルトのNotionページID（設定するとページIDの指定を省略可能）
+DEFAULT_NOTION_PAGE_ID=25896437dc5080a08556c2b278a4d19e
 ```
 
 ### Notion APIトークンの取得方法
@@ -67,12 +70,13 @@ MCPクライアントの設定ファイル（`.mcp.json`）に以下を追加：
 ```json
 {
   "mcpServers": {
-    "md-to-notion": {
+    "markdown-to-notion": {
       "type": "stdio",
       "command": "md-to-notion",
       "args": [],
       "env": {
-        "NOTION_API_TOKEN": "your_notion_api_token_here"
+        "NOTION_API_TOKEN": "your_notion_api_token_here",
+        "DEFAULT_NOTION_PAGE_ID": "your_default_page_id_here"
       }
     }
   }
@@ -92,8 +96,13 @@ Markdownファイルの内容をNotionページに追加
 
 **使用例:**
 ```
+# ページIDを指定した場合
 markdownFilePath: ./example.md
 notionPageId: 1234567890abcdef1234567890abcdef
+
+# デフォルトページIDを使用した場合（簡単！）
+markdownFilePath: ./example.md
+※ notionPageIdを省略するとDEFAULT_NOTION_PAGE_IDが使用されます
 ```
 
 ### verify-notion-connection
