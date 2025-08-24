@@ -1,4 +1,4 @@
-# MD to Notion
+# MD to Notion MCP Server
 
 `.md`ファイルの内容を、Notionに出力できるMCPサーバー
 
@@ -11,11 +11,18 @@
 ## インストール
 
 ```bash
+# リポジトリをクローン
+git clone https://github.com/camoneart/md-to-notion
+cd md-to-notion
+
 # 依存関係のインストール
 pnpm install
 
 # TypeScriptのビルド
 pnpm run build
+
+# グローバルコマンドとして登録
+pnpm link --global
 ```
 
 ## 設定
@@ -55,14 +62,15 @@ pnpm start
 
 ### 2. Claude Code等のMCPクライアントから利用
 
-MCPクライアントの設定ファイルに以下を追加：
+MCPクライアントの設定ファイル（`.mcp.json`）に以下を追加：
 
 ```json
 {
   "mcpServers": {
-    "md-mcp": {
-      "command": "node",
-      "args": ["/path/to/md-mcp/dist/index.js"],
+    "md-to-notion": {
+      "type": "stdio",
+      "command": "md-to-notion",
+      "args": [],
       "env": {
         "NOTION_API_TOKEN": "your_notion_api_token_here"
       }
@@ -70,6 +78,8 @@ MCPクライアントの設定ファイルに以下を追加：
   }
 }
 ```
+
+**注意:** 上記設定を使用するには、事前に `pnpm link --global` でグローバルコマンドとして登録する必要があります。
 
 ## 利用可能なツール
 
@@ -126,12 +136,14 @@ pnpm run typecheck
 
 ### 権限の設定
 
-Notionページにコンテンツを追加するには、作成したインテグレーションをページに招待する必要があります：
+Notionページにコンテンツを追加するには、作成したインテグレーションをページに接続する必要があります：
 
 1. 対象のNotionページを開く
-2. 右上の「共有」をクリック
-3. 「招待」でインテグレーション名を検索
-4. インテグレーションを選択して招待
+2. 右上の「⋯」（3点メニュー）をクリック
+3. メニューから「Connections」を選択
+4. 検索ボックスにインテグレーション名を入力
+5. 表示されたインテグレーションを選択
+6. 権限確認画面で「Confirm」をクリック
 
 ## License
 
