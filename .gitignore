@@ -41,3 +41,7 @@ _docs/templates
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# MCP configuration with secrets
+.mcp.json
+
