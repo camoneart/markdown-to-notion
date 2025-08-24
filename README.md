@@ -1,71 +1,73 @@
 # Markdown to Notion MCP Server
 
-`.md`ファイルの内容を、Notionに出力できるMCPサーバー
+**English** | **[Japanese](/README.ja.md)**
 
-## 機能
+An MCP server that converts `.md` file content and outputs it to Notion.
 
-- Markdownファイルの内容をNotionページに変換・出力
-- Notion APIとの接続確認
-- 現在のサーバー設定の確認
+## Features
 
-## インストール
+- Convert Markdown file content to Notion page format and output
+- Verify Notion API connection
+- Display current server configuration
+
+## Installation
 
 ```bash
-# リポジトリをクローン
-git clone https://github.com/camoneart/md-to-notion
-cd md-to-notion
+# Clone the repository
+git clone https://github.com/camoneart/markdown-to-notion
+cd markdown-to-notion
 
-# 依存関係のインストール
+# Install dependencies
 pnpm install
 
-# TypeScriptのビルド
+# Build TypeScript
 pnpm run build
 
-# グローバルコマンドとして登録
+# Register as global command
 pnpm link --global
 ```
 
-## 設定
+## Configuration
 
-1. `.env.example`をコピーして`.env`ファイルを作成
-2. Notion APIトークンを設定
+1. Copy `.env.example` to create `.env` file
+2. Configure Notion API token
 
 ```bash
 cp .env.example .env
 ```
 
-`.env`ファイルを編集:
+Edit the `.env` file:
 ```env
 NOTION_API_TOKEN=your_notion_api_token_here
 
-# オプション: デフォルトのNotionページID（設定するとページIDの指定を省略可能）
-DEFAULT_NOTION_PAGE_ID=25896437dc5080a08556c2b278a4d19e
+# Optional: Default Notion page ID (enables page ID omission when set)
+DEFAULT_NOTION_PAGE_ID=your_default_page_id_here
 ```
 
-### Notion APIトークンの取得方法
+### How to get Notion API Token
 
-1. [Notion Developers](https://www.notion.so/my-integrations)にアクセス
-2. 「New integration」をクリック
-3. インテグレーション名を入力（例：Markdown MCP Server）
-4. ワークスペースを選択
-5. 「Submit」をクリック
-6. 表示されたトークンをコピー
+1. Go to [Notion Developers](https://www.notion.so/my-integrations)
+2. Click "New integration"
+3. Enter integration name (e.g., "Markdown MCP Server")
+4. Select workspace
+5. Click "Submit"
+6. Copy the displayed token
 
-## 使い方
+## Usage
 
-### 1. MCPサーバーとして実行
+### 1. Run as MCP Server
 
 ```bash
-# 開発モード
+# Development mode
 pnpm run dev
 
-# プロダクションモード（ビルド後）
+# Production mode (after build)
 pnpm start
 ```
 
-### 2. Claude Code等のMCPクライアントから利用
+### 2. Use from MCP clients like Claude Code
 
-MCPクライアントの設定ファイル（`.mcp.json`）に以下を追加：
+Add the following to your MCP client configuration file (`.mcp.json`):
 
 ```json
 {
@@ -83,76 +85,76 @@ MCPクライアントの設定ファイル（`.mcp.json`）に以下を追加：
 }
 ```
 
-**注意:** 上記設定を使用するには、事前に `pnpm link --global` でグローバルコマンドとして登録する必要があります。
+**Note:** To use the above configuration, you need to register it as a global command with `pnpm link --global` beforehand.
 
-## 利用可能なツール
+## Available Tools
 
 ### md-to-notion
-Markdownファイルの内容をNotionページに追加
+Add Markdown file content to Notion page
 
-**パラメータ:**
-- `markdownFilePath`: マークダウンファイルのパス
-- `notionPageId`: 追加先のNotionページID
+**Parameters:**
+- `markdownFilePath`: Path to the markdown file
+- `notionPageId`: Notion page ID to append content to (optional)
 
-**使用例:**
+**Usage Examples:**
 ```
-# ページIDを指定した場合
+# With page ID specified
 markdownFilePath: ./example.md
 notionPageId: 1234567890abcdef1234567890abcdef
 
-# デフォルトページIDを使用した場合（簡単！）
+# Using default page ID (simple!)
 markdownFilePath: ./example.md
-※ notionPageIdを省略するとDEFAULT_NOTION_PAGE_IDが使用されます
+※ DEFAULT_NOTION_PAGE_ID is used when notionPageId is omitted
 ```
 
 ### verify-notion-connection
-Notion APIへの接続確認
+Verify Notion API connection
 
-**パラメータ:** なし
+**Parameters:** None
 
-## 利用可能なリソース
+## Available Resources
 
 ### config-info
-現在のサーバー設定を表示
+Display current server configuration
 
 **URI:** `config://current`
 
-## 開発
+## Development
 
 ```bash
-# テスト実行
+# Run tests
 pnpm test
 
-# リンター実行
+# Run linter
 pnpm run lint
 
-# 型チェック
+# Type check
 pnpm run typecheck
 ```
 
-## トラブルシューティング
+## Troubleshooting
 
-### よくあるエラー
+### Common Errors
 
 1. **"NOTION_API_TOKEN environment variable is required"**
-   - `.env`ファイルにNotion APIトークンが設定されていません
+   - Notion API token is not set in `.env` file
 
 2. **"Markdown file not found"**
-   - 指定されたMarkdownファイルのパスが間違っています
+   - The specified Markdown file path is incorrect
 
 3. **"Failed to retrieve Notion page"**
-   - NotionページIDが間違っているか、インテグレーションにページへのアクセス権限がありません
+   - Notion page ID is incorrect or integration doesn't have access permission to the page
 
-### 権限の設定
+### Permission Setup
 
-Notionページにコンテンツを追加するには、作成したインテグレーションをページに接続する必要があります：
+To add content to a Notion page, you need to connect the created integration to the page:
 
-1. 対象のNotionページを開く
-2. 右上の「⋯」（3点メニュー）をクリック
-3. メニューから「Connections」を選択
-4. 検索ボックスにインテグレーション名を入力
-5. 表示されたインテグレーションを選択
-6. 権限確認画面で「Confirm」をクリック
+1. Open the target Notion page
+2. Click the "⋯" (three dots menu) in the top right
+3. Select "Connections" from the menu
+4. Enter the integration name in the search box
+5. Select the displayed integration
+6. Click "Confirm" on the permission confirmation screen
 
 ## License
 
