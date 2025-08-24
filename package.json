@@ -1,5 +1,5 @@
 {
-  "name": "md-to-notion",
+  "name": "markdown-to-notion",
   "version": "1.0.0",
   "description": ".mdファイルの内容を、Notionに出力できるMCPサーバー",
   "type": "module",
