@@ -38,3 +38,6 @@ coverage/
 
 # cc log
 _docs/templates
+
+# Claude Code local settings
+.claude/settings.local.json
