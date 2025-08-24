@@ -4,7 +4,7 @@ export interface NotionConfig {
 
 export interface MarkdownToNotionRequest {
   markdownFilePath: string;
-  notionPageId: string;
+  notionPageId?: string;
 }
 
 export interface MarkdownToNotionResponse {

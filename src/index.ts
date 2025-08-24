@@ -17,7 +17,7 @@ class MarkdownMCPServer {
 
   constructor() {
     this.server = new McpServer({
-      name: 'md-mcp',
+      name: 'markdown-to-notion',
       version: '1.0.0',
     });
 
@@ -34,7 +34,7 @@ class MarkdownMCPServer {
         description: 'Convert markdown file content to Notion page',
         inputSchema: {
           markdownFilePath: z.string().describe('Path to the markdown file'),
-          notionPageId: z.string().describe('Notion page ID to append content to'),
+          notionPageId: z.string().optional().describe('Notion page ID to append content to (optional, uses DEFAULT_NOTION_PAGE_ID if not provided)'),
         },
       },
       async ({ markdownFilePath, notionPageId }) => {
@@ -123,7 +123,7 @@ class MarkdownMCPServer {
               uri: 'config://current',
               text: JSON.stringify(
                 {
-                  name: 'md-mcp',
+                  name: 'markdown-to-notion',
                   version: '1.0.0',
                   hasNotionToken,
                   environment: process.env.NODE_ENV || 'development',
@@ -136,6 +136,14 @@ class MarkdownMCPServer {
         };
       }
     );
+  }
+
+  private getDefaultPageId(): string {
+    const defaultPageId = process.env.DEFAULT_NOTION_PAGE_ID;
+    if (!defaultPageId) {
+      throw new MCPError('Notion page ID is required. Please provide notionPageId parameter or set DEFAULT_NOTION_PAGE_ID environment variable', 'MISSING_PAGE_ID');
+    }
+    return defaultPageId;
   }
 
   private async ensureNotionClient(): Promise<void> {
@@ -154,13 +162,16 @@ class MarkdownMCPServer {
   ): Promise<any> {
     await this.ensureNotionClient();
 
+    // デフォルトページIDの取得
+    const pageId = request.notionPageId || this.getDefaultPageId();
+
     this.markdownParser.validateMarkdownFile(request.markdownFilePath);
 
     const blocks = await this.markdownParser.parseFile(request.markdownFilePath);
     
-    const pageInfo = await this.notionClient!.getPageInfo(request.notionPageId);
+    const pageInfo = await this.notionClient!.getPageInfo(pageId);
     
-    await this.notionClient!.appendBlocksToPage(request.notionPageId, blocks);
+    await this.notionClient!.appendBlocksToPage(pageId, blocks);
 
     return {
       success: true,
