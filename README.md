@@ -1,4 +1,4 @@
-# MD to Notion MCP Server
+# Markdown to Notion MCP Server
 
 `.md`ファイルの内容を、Notionに出力できるMCPサーバー
 
